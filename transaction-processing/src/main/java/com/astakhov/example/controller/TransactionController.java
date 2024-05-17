@@ -25,10 +25,11 @@ public class TransactionController {
         List<Transaction> transactions = transactionService.findAll();
         return  ResponseEntity.ok(transactions);
     }
-//    @GetMapping()
-//    public List<Transaction> getTransactions(@RequestParam Long accountFrom) {
-//        return  transactionService.getTransactions(accountFrom);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Transaction> getTransactionById(@PathVariable("id") Long id) {
+        Transaction transaction = transactionService.getTransactionById(id);
+        return ResponseEntity.ok(transaction);
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Transaction> addTransaction(@RequestBody Transaction transaction) {
@@ -38,6 +39,12 @@ public class TransactionController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable("id") long id) {
+        transactionService.deleteTransactionById(id);
+        return  ResponseEntity.ok().build();
     }
 
 }

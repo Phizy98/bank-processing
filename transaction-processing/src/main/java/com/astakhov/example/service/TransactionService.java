@@ -28,4 +28,13 @@ public class TransactionService {
     public List<Transaction> findAll() {
         return transactionRepository.findAll();
     }
+
+
+    public Transaction getTransactionById(Long id) {
+        return transactionRepository.findById(id).orElse(null);
+    }
+
+    public void deleteTransactionById(Long id) {
+        transactionRepository.deleteById(id);
+    }
 }
