@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController()
-@RequestMapping("/api/v1/transactions")
+@RequestMapping("/transactions")
 public class TransactionController {
     private final TransactionService transactionService;
 
@@ -33,7 +33,6 @@ public class TransactionController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Transaction> addTransaction(@RequestBody Transaction transaction) {
         try {
-            System.out.println(transaction.getAccountFrom());
             Transaction savedTransaction = transactionService.addTransaction(transaction);
             return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
         } catch (Exception e) {
