@@ -8,6 +8,7 @@ import lombok.Data;
 @Table(schema = "s_transactions", name = "t_transactions")
 public class Transaction {
     @Id
+    @Column(name = "c_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
