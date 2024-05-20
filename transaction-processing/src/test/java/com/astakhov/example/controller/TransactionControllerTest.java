@@ -24,14 +24,14 @@ class TransactionControllerTest {
                 "\"expenseCategory\": \"Groceries\"," +
                 "\"transactionDateTime\": \"2024-04-17T09:30:00\"" +
                 "}";
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/transactions")
+        mockMvc.perform(MockMvcRequestBuilders.post("/transactions")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(jsonInput))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.accountFrom").value("123456789"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.accountTo").value("987654321"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.currencyShortname").value("USD"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.sum").value(1000.00))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.sum").value(1000.0))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.expenseCategory").value("Groceries"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.transactionDateTime").value("2024-04-17T09:30:00"));
     }
