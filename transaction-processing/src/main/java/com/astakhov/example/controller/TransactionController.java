@@ -1,7 +1,7 @@
 package com.astakhov.example.controller;
 
 import com.astakhov.example.model.Transaction;
-import com.astakhov.example.service.TransactionService;
+import com.astakhov.example.service.TransactionServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,31 +13,38 @@ import java.util.List;
 @RestController()
 @RequestMapping("/transactions")
 public class TransactionController {
-    private final TransactionService transactionService;
+    private final TransactionServiceImp transactionServiceImp;
 
     @Autowired
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
+    public TransactionController(TransactionServiceImp transactionServiceImp) {
+        this.transactionServiceImp = transactionServiceImp;
     }
 
     @GetMapping()
     public ResponseEntity<List<Transaction>> all() {
-        List<Transaction> transactions = transactionService.findAll();
+        List<Transaction> transactions = transactionServiceImp.findAll();
         return  ResponseEntity.ok(transactions);
     }
-//    @GetMapping()
-//    public List<Transaction> getTransactions(@RequestParam Long accountFrom) {
-//        return  transactionService.getTransactions(accountFrom);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Transaction> getTransactionById(@PathVariable("id") Long id) {
+        Transaction transaction = transactionServiceImp.getTransactionById(id);
+        return ResponseEntity.ok(transaction);
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Transaction> addTransaction(@RequestBody Transaction transaction) {
         try {
-            Transaction savedTransaction = transactionService.addTransaction(transaction);
+            Transaction savedTransaction = transactionServiceImp.addTransaction(transaction);
             return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable("id") long id) {
+        transactionServiceImp.deleteTransactionById(id);
+        return  ResponseEntity.ok().build();
     }
 
 }
