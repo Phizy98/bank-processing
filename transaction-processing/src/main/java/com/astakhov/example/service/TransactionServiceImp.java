@@ -17,10 +17,10 @@ public class TransactionServiceImp implements  TransactionService{
     }
 
 
-//    public List<Transaction> getTransactions(Long accountFrom) {
-//        return transactionRepository.findAllByAccountFrom(accountFrom);
-//    }
-//
+    public List<Transaction> findПожалуйстаAllByAccountFrom(Long accountFrom) {
+        return transactionRepository.findПожалуйстаAllByAccountFrom(accountFrom);
+    }
+
     @Override
     public Transaction addTransaction(Transaction transaction) {
         return transactionRepository.save(transaction);

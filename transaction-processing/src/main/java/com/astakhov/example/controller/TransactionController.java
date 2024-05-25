@@ -30,6 +30,11 @@ public class TransactionController {
         Transaction transaction = transactionServiceImp.getTransactionById(id);
         return ResponseEntity.ok(transaction);
     }
+    @GetMapping("/{accountFrom}")
+    public ResponseEntity<List<Transaction>> getTransactionByAccountFrom(@PathVariable("accountFrom") Long accountFrom) {
+        List<Transaction> transaction = transactionServiceImp.findПожалуйстаAllByAccountFrom(accountFrom);
+        return ResponseEntity.ok(transaction);
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Transaction> addTransaction(@RequestBody Transaction transaction) {

@@ -9,4 +9,5 @@ public interface TransactionService {
     List<Transaction> findAll();
     Transaction getTransactionById(Long id);
     void deleteTransactionById(Long id);
+
 }
