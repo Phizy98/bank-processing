@@ -1,13 +1,13 @@
 package com.astakhov.example.service;
 
-import com.astakhov.example.model.Transaction;
+import com.astakhov.example.DTO.TransactionDTO;
 
 import java.util.List;
 
 public interface TransactionService {
-    Transaction addTransaction(Transaction transaction);
-    List<Transaction> findAll();
-    Transaction getTransactionById(Long id);
+    List<TransactionDTO> findAll();
+    TransactionDTO addTransaction(TransactionDTO transaction);
+    TransactionDTO getTransactionById(Long id);
     void deleteTransactionById(Long id);
 
 }

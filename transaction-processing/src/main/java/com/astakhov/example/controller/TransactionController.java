@@ -1,7 +1,8 @@
 package com.astakhov.example.controller;
 
-import com.astakhov.example.model.Transaction;
+import com.astakhov.example.DTO.TransactionDTO;
 import com.astakhov.example.service.TransactionServiceImp;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-@RestController()
+@Slf4j
+@RestController
 @RequestMapping("/transactions")
 public class TransactionController {
     private final TransactionServiceImp transactionServiceImp;
@@ -21,33 +22,35 @@ public class TransactionController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Transaction>> all() {
-        List<Transaction> transactions = transactionServiceImp.findAll();
+    public ResponseEntity<List<TransactionDTO>> getAll() {
+        List<TransactionDTO> transactions = transactionServiceImp.findAll();
         return  ResponseEntity.ok(transactions);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<Transaction> getTransactionById(@PathVariable("id") Long id) {
-        Transaction transaction = transactionServiceImp.getTransactionById(id);
+    @GetMapping(params = "id")
+    public ResponseEntity<TransactionDTO> getTransactionById(@RequestParam("id") Long id) {
+        TransactionDTO transaction = transactionServiceImp.getTransactionById(id);
         return ResponseEntity.ok(transaction);
     }
-    @GetMapping("/{accountFrom}")
-    public ResponseEntity<List<Transaction>> getTransactionByAccountFrom(@PathVariable("accountFrom") Long accountFrom) {
-        List<Transaction> transaction = transactionServiceImp.findПожалуйстаAllByAccountFrom(accountFrom);
+    @GetMapping(params = "accountFrom")
+    public ResponseEntity<List<TransactionDTO>> getTransactionByAccountFrom(@RequestParam("accountFrom") Long accountFrom) {
+        List<TransactionDTO> transaction = transactionServiceImp.findAllByAccountFrom(accountFrom);
         return ResponseEntity.ok(transaction);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Transaction> addTransaction(@RequestBody Transaction transaction) {
+    public ResponseEntity<TransactionDTO> addTransaction(@RequestBody TransactionDTO transaction) {
         try {
-            Transaction savedTransaction = transactionServiceImp.addTransaction(transaction);
+            log.info("Accepted transactionDTO in controller: " + transaction);
+            TransactionDTO savedTransaction = transactionServiceImp.addTransaction(transaction);
+            log.info("Saved transaction in controller: " + savedTransaction);
             return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable("id") long id) {
+    @DeleteMapping(params = "id")
+    public ResponseEntity<Void> deleteTransaction(@RequestParam("id") Long id) {
         transactionServiceImp.deleteTransactionById(id);
         return  ResponseEntity.ok().build();
     }
