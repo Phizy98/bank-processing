@@ -1,9 +1,17 @@
 package com.astakhov.example.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+import java.time.OffsetDateTime;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(schema = "s_transactions", name = "t_transactions")
 public class Transaction {
@@ -28,5 +36,18 @@ public class Transaction {
     private String expenseCategory;
 
     @Column(name = "c_transaction_datetime")
-    private String transactionDateTime;
+    private OffsetDateTime transactionDateTime;
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", accountFrom=" + accountFrom +
+                ", accountTo=" + accountTo +
+                ", currencyShortname='" + currencyShortname + '\'' +
+                ", sum=" + sum +
+                ", expenseCategory='" + expenseCategory + '\'' +
+                ", transactionDateTime=" + transactionDateTime +
+                '}';
+    }
 }
